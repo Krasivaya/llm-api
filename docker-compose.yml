@@ -3,10 +3,8 @@ version: '3.8'
 services:
   db:
     image: postgres:13
-    environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+    env_file:
+      - .env
     ports:
       - "5432:5432"
     volumes:
@@ -16,8 +14,8 @@ services:
     build: ./llm
     depends_on:
       - db
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
+    env_file:
+      - .env
     ports:
       - "8000:8000"
 
@@ -27,8 +25,8 @@ services:
       - "3000:3000"
     depends_on:
       - db
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
+    env_file:
+      - .env
 
 volumes:
   pgdata:
